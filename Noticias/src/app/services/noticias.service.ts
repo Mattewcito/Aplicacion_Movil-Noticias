@@ -1,16 +1,44 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders } from "@angular/common/http";
 import { NewTopHeadLines } from "../interfaces";
+import { environment } from 'src/environments/environment';
 
+const apiKey = environment.apiKey;
+const apiUrl = environment.apiUrl;
+
+const headers = new  HttpHeaders({
+  'X-Api-key':apiKey
+});
 @Injectable({
   providedIn: 'root'
 })
 export class NoticiasService {
 
+  categoriaActual = '';
+  headLinesPages = 0;
+  PagesCategorias = 0;
+
   constructor(private http: HttpClient) { }
 
+  private ejecutarQuery<T>(query: string){
+    query = apiUrl + query
+
+    return this.http.get<T>(query,{headers})
+  }
+
   getTopHeadLines(){
-    return this.http.get<NewTopHeadLines>('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=09779fe640b84cbf9e9b31770e26cc93');
+    this.headLinesPages++;
+    return this.ejecutarQuery<NewTopHeadLines>(`/top-headlines?country=co&page=${this.headLinesPages}`);
+  }
+
+  getToHeadLinesCategoria(categoria: string){
+    if(this.categoriaActual === categoria){
+      this.PagesCategorias++;
+    }else{
+      this.PagesCategorias = 1;
+      this.categoriaActual = categoria;
+    }
+    return this.ejecutarQuery<NewTopHeadLines>(`/top-headlines?country=co&category=${categoria}&page=${this.PagesCategorias}`)
   }
 
 }
