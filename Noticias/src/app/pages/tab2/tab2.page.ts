@@ -28,10 +28,6 @@ export class Tab2Page implements OnInit{
     cargarNoticias(categoria: string, event?){
       this.NoticiasServ.getToHeadLinesCategoria(categoria)
       .subscribe(response =>{
-        if(response.articles.length === 0){
-          event.target.disabled = true;
-          return;
-        }
         this.noticias.push(...response.articles);
         
         if(event){

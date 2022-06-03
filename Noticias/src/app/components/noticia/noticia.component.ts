@@ -29,7 +29,7 @@ export class NoticiaComponent implements OnInit {
   
   async lanzarMenu(){
 
-const noticiaEnFavorito = this.StorageService.noticiaEnFavoritos(this.noticia);
+const noticiaEnFavorito = this.StorageService.noticiaEnFavorito(this.noticia);
 
     const actionSheet = await this.actionSheetCtrl.create({
       buttons: [{

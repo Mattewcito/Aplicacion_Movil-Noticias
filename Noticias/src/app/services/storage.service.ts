@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Article } from "../interfaces";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,34 +18,34 @@ export class StorageService {
   async init() {
     const storage = await this.storage.create();
     this._storage = storage;
-    this.cargarFavoritos;
+    this.cargarFavoritos();
   }
 
   async saveRemoveNoticia(noticia: Article){
-    const existe = this._localNoticias.find(localNoticia=> localNoticia.title === noticia.title);
+    const existe = this._localNoticias.find(localNoticia => localNoticia.title === noticia.title);
     if (existe) {
       this._localNoticias = this._localNoticias.filter(localNoticia => localNoticia.title !== noticia.title);
     } else {
       this._localNoticias = [noticia, ...this._localNoticias];
     }
-    this._storage.set('noticia',this._localNoticias);
+    this._storage.set('noticias', this._localNoticias);
   }
 
-  public get getLocalNoticia(){
+  public get getLocalNoticias(){
     return [...this._localNoticias];
   }
 
-  noticiaEnFavoritos(noticia: Article){
+  noticiaEnFavorito(noticia: Article){
     return !!this._localNoticias.find(localStorage => localStorage.title === noticia.title);
   }
 
   async cargarFavoritos(){
-    try{
-
+    try {
+     
         const noticias = await this._storage.get('noticias');
         this._localNoticias = noticias || [];
-
-    } catch (error) {
+      
+    } catch (error){
       console.log(error);
     }
   }

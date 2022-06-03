@@ -10,7 +10,7 @@ import { Article } from '../../interfaces/index';
 export class Tab3Page {
 
   get noticias(): Article[]{
-    return this.storageService.getLocalNoticia;
+    return this.storageService.getLocalNoticias;
   }
   constructor(private storageService: StorageService) {}
 
